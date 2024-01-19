@@ -1,5 +1,6 @@
 import React, {useState} from "react";
 import {User, UserForm} from "../../types";
+import "./User.Form.css";
 
 interface Props {
   onSubmit: (user: User) => void;
@@ -40,8 +41,8 @@ const UserForm: React.FC<Props> = ({onSubmit}) => {
   };
 
   return (
-    <form className={"d-flex flex-column gap-3"} style={{width: 400}} onSubmit={onFormSubmit}>
-      <h4>Ad new user</h4>
+    <form className={"userForm d-flex flex-column gap-3"} style={{width: 400}} onSubmit={onFormSubmit}>
+      <h4 className={"text-primary"}>Ad new user</h4>
       <div className={"form-group"}>
         <label htmlFor="name">Name</label>
         <input
@@ -99,7 +100,7 @@ const UserForm: React.FC<Props> = ({onSubmit}) => {
         />
       </div>
 
-      <button type={"submit"} className={"btn btn-primary px-4 mt-2 ms-auto"}>Add</button>
+      <button type={"submit"} className={"btn btn-primary px-4 ms-auto"}>Add</button>
     </form>
   );
 };

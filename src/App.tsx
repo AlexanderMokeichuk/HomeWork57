@@ -1,34 +1,29 @@
+import "bootstrap/dist/css/bootstrap-grid.min.css";
+import UserForm from "./Components/UserForm/UserForm";
 import {useState} from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
-import "./App.css";
+import {User} from "./types";
+import Users from "./Components/Users/Users";
 
 function App() {
-  const [count, setCount] = useState(0);
+  const [users, setUsers] = useState<User[]>([]);
+
+  const addUser = (user: User) => {
+    setUsers(prevState => [...prevState, user]);
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo"/>
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo"/>
-        </a>
+    <main className={"mt-5"}>
+      <div className={"container g-5"}>
+        <div className={"row mt-2"}>
+          <div className={"col-6"}>
+            <UserForm onSubmit={addUser} />
+          </div>
+          <div className={"col-6 ms-auto"}>
+            <Users users={users}/>
+          </div>
+        </div>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    </main>
   );
 }
 

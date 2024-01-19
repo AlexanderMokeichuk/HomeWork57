@@ -1,8 +1,46 @@
-import React from "react";
+import React, {useState} from "react";
+import {User, UserForm} from "../../types";
 
-const UserForm: React.FC = () => {
+interface Props {
+  onSubmit: (user: User) => void;
+}
+
+const UserForm: React.FC<Props> = ({onSubmit}) => {
+  const [user, setUser] = useState<UserForm>({
+    name: "",
+    email: "",
+    role: "",
+    isActive: false,
+  });
+
+  const changeUser = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    setUser(prevState => ({
+      ...prevState,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
+  const changeIsActive = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setUser(prevState => ({
+      ...prevState,
+      [e.target.name]: e.target.checked,
+    }));
+  };
+
+  const onFormSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (user.name !== "" && user.email !== "" && user.role !== "") {
+      onSubmit({
+        id: Math.random().toString(),
+        ...user,
+      });
+    } else {
+      alert("Заполните форму полностью");
+    }
+  };
+
   return (
-    <form className={"d-flex flex-column gap-3"} style={{width: 400}}>
+    <form className={"d-flex flex-column gap-3"} style={{width: 400}} onSubmit={onFormSubmit}>
       <h4>Ad new user</h4>
       <div className={"form-group"}>
         <label htmlFor="name">Name</label>
@@ -11,16 +49,22 @@ const UserForm: React.FC = () => {
           name={"name"}
           id={"name"}
           className={"form-control"}
+
+          value={user.name}
+          onChange={changeUser}
         />
       </div>
 
       <div className={"form-group"}>
         <label htmlFor={"email"}>Email</label>
         <input
-          type={"text"}
+          type={"email"}
           name={"email"}
           id={"email"}
           className={"form-control"}
+
+          value={user.email}
+          onChange={changeUser}
         />
       </div>
 
@@ -30,6 +74,9 @@ const UserForm: React.FC = () => {
           name={"role"}
           id={"role"}
           className={"form-select form-select-sm"}
+
+          value={user.role}
+          onChange={changeUser}
         >
           <option>Select a role</option>
           <option value={"user"}>user</option>
@@ -46,6 +93,9 @@ const UserForm: React.FC = () => {
           name={"isActive"}
           id={"isActive"}
           className={"form-check-input ms-1 cu"}
+
+          checked={user.isActive}
+          onChange={changeIsActive}
         />
       </div>
 
